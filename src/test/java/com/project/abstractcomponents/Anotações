@@ -1,0 +1,3 @@
+Muitas das ações que tem reuso constante durante o projeto como wait.until(Expec....), implicity/explicity wait, entre outras
+coisas, devem ter uma classe abstrata para aportá-las. Isso é bom para não precisar criar um objeto dessa classe, e sim chamar
+o método diretamente da classe.

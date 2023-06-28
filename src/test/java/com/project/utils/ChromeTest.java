@@ -1,5 +1,6 @@
 package com.project.utils;
 
+import com.project.pageobjects.LandingPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +24,7 @@ public class ChromeTest {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); //max timeout
         driver.manage().deleteAllCookies();
+        LandingPage landingPage = new LandingPage(driver);
     }
 
 //    @AfterEach

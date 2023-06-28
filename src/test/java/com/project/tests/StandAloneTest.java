@@ -1,5 +1,6 @@
 package com.project.tests;
 
+import com.project.pageobjects.LandingPage;
 import com.project.utils.ChromeTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class StandAloneTest extends ChromeTest {
     void standAlone() throws InterruptedException {
         String nomeDoProduto1 = "ADIDAS ORIGINAL";
         String nomeDoProduto2 = "IPHONE 13 PRO";
+
+        //Landing Page = tela de login
+        LandingPage landingPage = new LandingPage(driver);
 
         driver.get("https://www.rahulshettyacademy.com/client");
         driver.findElement(By.id("userEmail")).sendKeys("tester@example.com");
