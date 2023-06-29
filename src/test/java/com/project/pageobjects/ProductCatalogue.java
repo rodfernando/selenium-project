@@ -29,7 +29,7 @@ public class ProductCatalogue extends AbstractComponent {
     By itensBy = By.cssSelector(".mb-3");
     By addToCart = By.cssSelector(".card-body button:last-child");
     By toastMessage = By.xpath("//*[@id='toast-container']");
-    By checkoutButton = By.cssSelector("[routerlink*='cart']");
+
 
     public List<WebElement> getItensList() {
 
@@ -38,10 +38,9 @@ public class ProductCatalogue extends AbstractComponent {
     }
 
     public WebElement getProductByName(String productName) {
-        WebElement item = getItensList().stream()
+        return getItensList().stream()
                 .filter(i->i.findElement(By.cssSelector("b")).getText().equals(productName))
                 .findFirst().orElse(null);
-        return item;
     }
 
     public void addProductToCart(String itemName) throws InterruptedException {
@@ -54,8 +53,5 @@ public class ProductCatalogue extends AbstractComponent {
     * Observar o uso de uma função dentro de outra.
     * No fim, chamaremos SOMENTE a função addProductToCart*/
 
-    public void checkoutButton() {
-        driver.findElement(checkoutButton).click();
-    }
 
 }

@@ -45,41 +45,36 @@ public class StandAloneTest extends ChromeTest {
 
         List<WebElement> itens = driver.findElements(By.cssSelector(".mb-3"));
 
-        WebElement item1 =  itens.stream()
-                .filter(i->i.findElement(By.cssSelector("b")).getText().equals(nomeDoProduto1))
+        WebElement item1 = itens.stream()
+                .filter(i -> i.findElement(By.cssSelector("b")).getText().equals(nomeDoProduto1))
                 .findFirst().orElse(null); // isso achará o card que tem o adidas original
         item1.findElement(By.cssSelector(".card-body button:last-child")).click();
 
         Thread.sleep(5000);
 
-        WebElement item2 =  itens.stream()
-                .filter(i->i.findElement(By.cssSelector("b")).getText().equals(nomeDoProduto2))
+        WebElement item2 = itens.stream()
+                .filter(i -> i.findElement(By.cssSelector("b")).getText().equals(nomeDoProduto2))
                 .findFirst().orElse(null);
         item2.findElement(By.cssSelector(".card-body button:last-child")).click();
-
 
 
         //buscando pelo toast após adicionar item no carrinho:
         wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ng-animating"))));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='toast-container']")));
         String msg = driver.findElement(By.xpath("//*[@id='toast-container']")).getText();
-        assertEquals(msg,"Product Added To Cart");
+        assertEquals(msg, "Product Added To Cart");
 
         driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
 
         //Quantidade de itens no carrinho
         List<WebElement> itensCart = driver.findElements(By.cssSelector(".cartSection h3"));
 
+        boolean match1 = itensCart.stream().anyMatch(i -> i.getText().equalsIgnoreCase(nomeDoProduto1));
+        boolean match2 = itensCart.stream().anyMatch(i -> i.getText().equalsIgnoreCase(nomeDoProduto2));
+        assertTrue(match1);
+        assertTrue(match2);
 
-       boolean match1 = itensCart.stream().anyMatch(i->i.getText().equalsIgnoreCase(nomeDoProduto1));
-       boolean match2 = itensCart.stream().anyMatch(i->i.getText().equalsIgnoreCase(nomeDoProduto2));
-       assertTrue(match1);
-       assertTrue(match2);
-
-       /*Se eu quero encontrar um elemento usando stream, uso o filter. Caso queira somente verificar, uso anyMatch*/
-
-        driver.findElement(By.xpath("//button[normalize-space()='Checkout']")).click();
-
+        /*Se eu quero encontrar um elemento usando stream, uso o filter. Caso queira somente verificar, uso anyMatch*/
 
 
         //Tela Checkout

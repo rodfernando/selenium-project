@@ -39,11 +39,19 @@ public class LandingPage extends AbstractComponent {
         driver.get("https://www.rahulshettyacademy.com/client");
     }
 
-    public void loginApplication(String email, String passwordKey) {
+    public ProductCatalogue loginApplication(String email, String passwordKey) {
 
         userName.sendKeys(email);
         password.sendKeys(passwordKey);
         submit.click();
+        // Se vamos para a página de catálogos, inicia-se o objeto diretamente nesta etapa:
+        return new ProductCatalogue(driver);
+        /*
+        ProductCatalogue productCatalogue = new ProductCatalogue(driver);
+        return productCatalogue;
+        */
+
+        // Na Classe SubmitTestOrder, é lançado -> ProductCatalogue productCatalogue = landingPage.loginApplication("tester@example.com", "Rodrigotester01");
     }
 
 

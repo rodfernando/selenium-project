@@ -1,8 +1,8 @@
 package com.project.tests;
 
-import com.project.pageobjects.LandingPage;
-import com.project.pageobjects.ProductCatalogue;
+import com.project.pageobjects.*;
 import com.project.utils.ChromeTest;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,43 +27,23 @@ public class SubmitTestOrder extends ChromeTest {
         //Landing Page = tela de login
         LandingPage landingPage = new LandingPage(driver);
         landingPage.goToURL();
-        landingPage.loginApplication("tester@example.com", "Rodrigotester01");
 
-        ProductCatalogue productCatalogue = new ProductCatalogue(driver);
-        List<WebElement> products = productCatalogue.getItensList();
+        ProductCatalogue productCatalogue = landingPage.loginApplication("tester@example.com", "Rodrigotester01");
 
         productCatalogue.addProductToCart(nomeDoProduto1);
-//        Thread.sleep(5000);
         productCatalogue.addProductToCart(nomeDoProduto2);
+        CartPage cartPage = productCatalogue.goToCartPage();
 
+        assertTrue(cartPage.verifyProductDisplay(nomeDoProduto1)); //Verificando item no carrinho
+        assertTrue(cartPage.verifyProductDisplay(nomeDoProduto2));
+//Obs: somente as ações devem ir para o PageObject. Asserções/validações são feitas na página do teste
 
+        CheckoutPage checkoutPage = cartPage.goToCheckout();
+        checkoutPage.selectCountry("Br");
+        checkoutPage.submitOrder();
 
-//        //Quantidade de itens no carrinho
-//        List<WebElement> itensCart = driver.findElements(By.cssSelector(".cartSection h3"));
-//
-//
-//       boolean match1 = itensCart.stream().anyMatch(i->i.getText().equalsIgnoreCase(nomeDoProduto1));
-//       boolean match2 = itensCart.stream().anyMatch(i->i.getText().equalsIgnoreCase(nomeDoProduto2));
-//       assertTrue(match1);
-//       assertTrue(match2);
-//
-//       /*Se eu quero encontrar um elemento usando stream, uso o filter. Caso queira somente verificar, uso anyMatch*/
-//
-//        driver.findElement(By.xpath("//button[normalize-space()='Checkout']")).click();
-//
-//
-//
-//        //Tela Checkout
-//        Actions a = new Actions(driver);
-//        a.sendKeys(driver.findElement(By.cssSelector("[placeholder='Select Country']")), "Br").build().perform();
-//        //Espera para aparecer a lista na tela:
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ta-item")));
-//        driver.findElement(By.xpath("//span[normalize-space()='Brazil']")).click();
-//        driver.findElement(By.cssSelector(".action__submit")).click();
-//        String confirmOrder = driver.findElement(By.cssSelector("h1")).getText();
-//        assertTrue(confirmOrder.equalsIgnoreCase("Thankyou for the order."));
-//    }
-
+        ConfirmationPage confirmationPage = checkoutPage.submitOrder();
+        assertTrue(confirmationPage.confirmOrderText().equalsIgnoreCase("Thankyou for the order."));
 
     }
 }
