@@ -22,29 +22,33 @@ public class ProductCatalogue extends AbstractComponent {
 
     @FindBy(css = ".mb-3")
     List<WebElement> itens;
+
     @FindBy(css = ".ng-animating")
     WebElement spinner;
+
+    @FindBy (css = "[routerlink*='cart']")
+    WebElement cartHeader;
 
 
     By itensBy = By.cssSelector(".mb-3");
     By addToCart = By.cssSelector(".card-body button:last-child");
     By toastMessage = By.xpath("//*[@id='toast-container']");
+    By item = By.cssSelector("b");
 
 
     public List<WebElement> getItensList() {
-
         waitForElementToAppear(itensBy);
         return itens;
     }
 
     public WebElement getProductByName(String productName) {
         return getItensList().stream()
-                .filter(i->i.findElement(By.cssSelector("b")).getText().equals(productName))
+                .filter(i->i.findElement(item).getText().equals(productName))
                 .findFirst().orElse(null);
     }
 
-    public void addProductToCart(String itemName) throws InterruptedException {
-        getProductByName(itemName).findElement(addToCart).click();
+    public void addProductToCart(String productName) throws InterruptedException {
+        getProductByName(productName).findElement(addToCart).click();
         waitForElementToAppear(toastMessage);
         waitForElementToDisappear();
     }
@@ -53,5 +57,9 @@ public class ProductCatalogue extends AbstractComponent {
     * Observar o uso de uma função dentro de outra.
     * No fim, chamaremos SOMENTE a função addProductToCart*/
 
+    public CartPage goToCartPage() {
+        cartHeader.click();
+        return new CartPage(driver);
+    }
 
 }

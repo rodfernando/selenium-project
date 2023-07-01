@@ -1,6 +1,6 @@
 package com.project.abstractcomponents;
 
-import com.project.pageobjects.CartPage;
+import com.project.pageobjects.OrderPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,25 +21,22 @@ public class AbstractComponent {
         PageFactory.initElements(driver, this);
     }
 
+    @FindBy (css = "[routerlink='/dashboard/myorders']")
+    public WebElement orderHeaderTab;
 
-    @FindBy (css = "[routerlink*='cart']")
-    WebElement cartHeader;
-
-
-
-    public void goToCheckoutPage() {
-
+    public OrderPage goToOrderPage() {
+        orderHeaderTab.click();
+        return new OrderPage(driver);
     }
-
-    public CartPage goToCartPage() {
-        cartHeader.click();
-        return new CartPage(driver);
-    }
-
 
     public void waitForElementToAppear(By findBy) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOfElementLocated(findBy));
+    }
+
+    public void waitForWebElementToAppear(WebElement findBy) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(findBy));
     }
 
     public void waitForElementToDisappear() throws InterruptedException {
@@ -48,4 +45,6 @@ public class AbstractComponent {
         //A aplicação tem um problema ao desaparecer o elemento
         Thread.sleep(1000);
     }
+
+
 }

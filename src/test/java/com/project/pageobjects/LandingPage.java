@@ -30,13 +30,22 @@ public class LandingPage extends AbstractComponent {
 
     @FindBy(id="login")
     WebElement submit;
-
     //Para ver como é escrito os localizadores, basta clicar no @FindBy + CTRL. Lá estará descrito o modo exato
+
+    @FindBy(css="div[aria-label='Incorrect email or password.']")
+    WebElement errorMessage;
+
 
 
     public void goToURL() {
 
         driver.get("https://www.rahulshettyacademy.com/client");
+    }
+
+    public String errorMessage() {
+
+        waitForWebElementToAppear(errorMessage);
+        return errorMessage.getText();
     }
 
     public ProductCatalogue loginApplication(String email, String passwordKey) {
@@ -52,7 +61,10 @@ public class LandingPage extends AbstractComponent {
         */
 
         // Na Classe SubmitTestOrder, é lançado -> ProductCatalogue productCatalogue = landingPage.loginApplication("tester@example.com", "Rodrigotester01");
+        // Isso define a transição de uma página para a outra
     }
+
+
 
 
 }

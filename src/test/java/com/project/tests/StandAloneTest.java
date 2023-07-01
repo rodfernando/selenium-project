@@ -1,24 +1,24 @@
 package com.project.tests;
 
 import com.project.pageobjects.LandingPage;
-import com.project.utils.ChromeTest;
-import org.junit.jupiter.api.Assertions;
+import com.project.utils.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.swing.*;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class StandAloneTest extends ChromeTest {
+public class StandAloneTest extends BaseTest {
+
+    public StandAloneTest() throws IOException {
+    }
 
     @Test
     void standAlone() throws InterruptedException {
